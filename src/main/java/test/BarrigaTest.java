@@ -69,7 +69,7 @@ public class BarrigaTest extends BaseTest {
 	}
 
 	@Test
-	public void t06_deveValidarMensagemMovimentacao() {
+	public void t06_deveValidarCamposObrigatorioMovimentacao() {
 		given().body("{}").when().post("/transacoes").then().statusCode(400).body("$", hasSize(8)).body("msg",
 				hasItems("Data do pagamento é obrigatório", "Interessado é obrigatório", "Valor é obrigatório",
 						"Valor deve ser um número", "Data da Movimentação é obrigatório", "Conta é obrigatório",
@@ -104,7 +104,7 @@ public class BarrigaTest extends BaseTest {
 		
 	}
 
-	// 1753785
+
 	@Test
 	public void t10_deveRemoverMovimentacao() {
 		given().pathParam("id", MOV_ID).when().delete("/transacoes/{id}").then().statusCode(204);
