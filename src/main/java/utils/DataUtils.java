@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import io.restassured.RestAssured;
+
 public class DataUtils {
 	public static String getDataDiferencaDias(Integer qtdDias) {
 		Calendar cal = Calendar.getInstance();
@@ -17,5 +19,8 @@ public class DataUtils {
 		DateFormat format = new SimpleDateFormat("dd/MM/yyy");
 		return format.format(date);
 
+	}
+	public static Integer getIdMovDescricao(String desc) {
+		return RestAssured.get("/transacoes?descricao="+desc).then().extract().path("id[0]");
 	}
 }

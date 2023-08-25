@@ -5,34 +5,17 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static utils.BarrigaUtils.getIdContaPeloNome;
+import static utils.BarrigaUtils.getIdMovDescricao;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import rest_core.BaseTest;
 import test.Movimentacao;
 import utils.DataUtils;
-
 public class MovimentaTest extends BaseTest {
-	@BeforeClass
-	public static void logar() {
-	    Map<String, String> login = new HashMap<String, String>();
-	    login.put("email", "oxe@oxe");
-	    login.put("senha", "oxeoxe");
-
-	    String token = given().log().all().body(login).contentType(ContentType.JSON)
-	        .when().post("/signin").then().log().all().statusCode(200)
-	        .extract().path("token");
-
-	    RestAssured.requestSpecification.header("Authorization", "JWT " + token);
-	    RestAssured.get("/reset").then().statusCode(200);
-	}
+	
 	@Test
 	public void deveInserirMovimentacaoComSucesso() {
 		Movimentacao mov = getMovimentacaoValida();
@@ -51,12 +34,7 @@ public class MovimentaTest extends BaseTest {
 		mov.setStatus(true);
 		return mov;
 	}
-	public Integer getIdContaPeloNome(String nome) {
-		return RestAssured.get("/contas?nome="+nome).then().extract().path("id[0]");
-	}
-	public Integer getIdMovDescricao(String desc) {
-		return RestAssured.get("/transacoes?descricao="+desc).then().extract().path("id[0]");
-	}
+	
 	
 	@Test
 	public void deveValidarCamposObrigatorioMovimentacao() {
